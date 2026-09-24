@@ -11,6 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Sarabun', sans-serif; }
+    /* Style สำหรับ Custom Range Slider */
+    input[type=range] {
+      accent-color: #4f46e5;
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen p-4 md:p-8">
@@ -18,25 +22,70 @@
     
     <!-- Header -->
     <div class="bg-indigo-600 text-white p-6 md:p-8">
-      <h1 class="text-2xl md:text-3xl font-bold">โปรแกรมคำนวณการผ่อนชำระหนี้</h1>
+      <h1 class="text-2xl md:text-3xl font-bold">จำลองการผ่อนชำระหนี้ (Loan Amortization)</h1>
       <p class="text-indigo-200 mt-1 text-sm md:text-base">คำนวณค่างวด ดอกเบี้ยลดต้นลดดอก และตารางการผ่อนรายปี</p>
     </div>
 
     <div class="p-6 md:p-8 space-y-8">
-      <!-- Input Controls -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-xl border border-slate-200">
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">เงินต้นตั้งต้น (บาท)</label>
-          <input type="number" id="principal" value="500000" step="10000" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium text-slate-900" />
+      
+      <!-- Interactive Slider Controls Section -->
+      <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-6">
+        <h2 class="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2">ปรับเปลี่ยนปัจจัยเพื่อทดลองคำนวณ</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- 1. วงเงินกู้ตั้งต้น -->
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-slate-700">วงเงินกู้ตั้งต้น (บาท)</label>
+            <div class="flex items-center space-x-3">
+              <input type="range" id="principalRange" min="100000" max="2000000" step="50000" value="500000" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+              <div class="relative min-w-[120px]">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 font-semibold">฿</span>
+                <input type="number" id="principalInput" value="500000" step="10000" class="w-full pl-7 pr-3 py-1.5 bg-slate-200 border border-slate-300 rounded-lg text-right font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. อัตราดอกเบี้ยต่อปี -->
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-slate-700">อัตราดอกเบี้ยต่อปี (%)</label>
+            <div class="flex items-center space-x-3">
+              <input type="range" id="rateRange" min="1" max="15" step="0.5" value="7" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+              <div class="relative min-w-[100px]">
+                <input type="number" id="rateInput" value="7" step="0.1" class="w-full pr-7 pl-3 py-1.5 bg-slate-200 border border-slate-300 rounded-lg text-right font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500 font-semibold">%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. ค่างวดผ่อนต่อเดือน -->
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-slate-700">ค่างวดผ่อนต่อเดือน (บาท)</label>
+            <div class="flex items-center space-x-3">
+              <input type="range" id="monthlyRange" min="2000" max="30000" step="100" value="5807" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+              <div class="relative min-w-[120px]">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 font-semibold">฿</span>
+                <input type="number" id="monthlyInput" value="5807" step="100" class="w-full pl-7 pr-3 py-1.5 bg-slate-200 border border-slate-300 rounded-lg text-right font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. ระยะเวลาผ่อน (ปี) -->
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-slate-700">ระยะเวลาผ่อน (ปี)</label>
+            <div class="flex items-center space-x-3">
+              <input type="range" id="yearsRange" min="1" max="30" step="1" value="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+              <div class="relative min-w-[100px]">
+                <input type="number" id="yearsInput" value="10" min="1" max="40" class="w-full px-3 py-1.5 bg-slate-200 border border-slate-300 rounded-lg text-center font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">อัตราดอกเบี้ยต่อปี (%)</label>
-          <input type="number" id="interestRate" value="7" step="0.1" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium text-slate-900" />
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">ระยะเวลาผ่อน (ปี)</label>
-          <input type="number" id="years" value="10" min="1" max="40" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium text-slate-900" />
-        </div>
+
+        <p class="text-xs text-slate-500 italic mt-2">
+          *คำนวณแบบลดต้นลดดอกรายเดือน ยอดผ่อนชำระจะถูกนำไปตัดดอกเบี้ยประจำงวดก่อน แล้วส่วนที่เหลือจึงนำไปตัดเงินต้น
+        </p>
       </div>
 
       <!-- Key Metrics Summary Cards -->
@@ -44,7 +93,7 @@
         <div class="bg-indigo-50 border border-indigo-100 p-5 rounded-xl">
           <span class="text-xs font-semibold text-indigo-600 uppercase tracking-wider">ต้องผ่อนต่อปี</span>
           <p id="annualPayment" class="text-2xl font-bold text-indigo-900 mt-1">0 บาท</p>
-          <p id="monthlyPayment" class="text-xs text-indigo-700 mt-1">(ประมาณ 0 บาท/เดือน)</p>
+          <p id="monthlyPaymentSub" class="text-xs text-indigo-700 mt-1">(ประมาณ 0 บาท/เดือน)</p>
         </div>
         <div class="bg-amber-50 border border-amber-100 p-5 rounded-xl">
           <span class="text-xs font-semibold text-amber-600 uppercase tracking-wider">ดอกเบี้ยรวมตลอดสัญญา</span>
@@ -85,46 +134,74 @@
           </table>
         </div>
       </div>
+
     </div>
   </div>
 
   <script>
     let chartInstance = null;
+    let isUpdatingFromMonthly = false;
 
     function formatNumber(num) {
       return new Intl.NumberFormat('th-TH', { maximumFractionDigits: 0 }).format(num);
     }
 
-    function calculateLoan() {
-      const P = parseFloat(document.getElementById('principal').value) || 0;
-      const annualRate = parseFloat(document.getElementById('interestRate').value) || 0;
-      const years = parseInt(document.getElementById('years').value) || 0;
+    // Sync Slider and Input
+    function syncInputs(sliderId, inputId, callback) {
+      const slider = document.getElementById(sliderId);
+      const input = document.getElementById(inputId);
+
+      slider.addEventListener('input', () => {
+        input.value = slider.value;
+        callback(sliderId);
+      });
+
+      input.addEventListener('input', () => {
+        slider.value = input.value;
+        callback(inputId);
+      });
+    }
+
+    function autoCalculateMonthly() {
+      const P = parseFloat(document.getElementById('principalInput').value) || 0;
+      const annualRate = parseFloat(document.getElementById('rateInput').value) || 0;
+      const years = parseInt(document.getElementById('yearsInput').value) || 0;
 
       if (P <= 0 || years <= 0) return;
 
-      const r = (annualRate / 100) / 12; // Monthly rate
-      const n = years * 12; // Total months
+      const r = (annualRate / 100) / 12;
+      const n = years * 12;
 
-      // Calculate monthly payment using amortization formula
-      let monthlyPayment = 0;
+      let monthly = 0;
       if (r > 0) {
-        monthlyPayment = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        monthly = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
       } else {
-        monthlyPayment = P / n;
+        monthly = P / n;
       }
 
+      const roundedMonthly = Math.round(monthly);
+      document.getElementById('monthlyInput').value = roundedMonthly;
+      document.getElementById('monthlyRange').value = roundedMonthly;
+    }
+
+    function calculateLoan(source) {
+      // If user modified P, Rate, or Years, automatically recalculate suggested Monthly Payment
+      if (source !== 'monthlyInput' && source !== 'monthlyRange') {
+        autoCalculateMonthly();
+      }
+
+      const P = parseFloat(document.getElementById('principalInput').value) || 0;
+      const annualRate = parseFloat(document.getElementById('rateInput').value) || 0;
+      const years = parseInt(document.getElementById('yearsInput').value) || 0;
+      const monthlyPayment = parseFloat(document.getElementById('monthlyInput').value) || 0;
+
+      if (P <= 0 || years <= 0 || monthlyPayment <= 0) return;
+
+      const r = (annualRate / 100) / 12;
       const annualPayment = monthlyPayment * 12;
-      const totalPaid = monthlyPayment * n;
-      const totalInterest = totalPaid - P;
 
-      // Update Summary Cards
-      document.getElementById('annualPayment').innerText = `${formatNumber(annualPayment)} บาท`;
-      document.getElementById('monthlyPayment').innerText = `(ประมาณ ${formatNumber(monthlyPayment)} บาท/เดือน)`;
-      document.getElementById('totalInterest').innerText = `${formatNumber(totalInterest)} บาท`;
-      document.getElementById('totalPayment').innerText = `${formatNumber(totalPaid)} บาท`;
-
-      // Generate Amortization Schedule (Yearly)
       let balance = P;
+      let totalInterest = 0;
       const scheduleTable = document.getElementById('scheduleTable');
       scheduleTable.innerHTML = '';
 
@@ -137,14 +214,21 @@
         let yearPrincipal = 0;
 
         for (let m = 1; m <= 12; m++) {
+          if (balance <= 0) break;
           const interestForMonth = balance * r;
-          const principalForMonth = monthlyPayment - interestForMonth;
+          let principalForMonth = monthlyPayment - interestForMonth;
+
+          if (principalForMonth > balance) {
+            principalForMonth = balance;
+          }
+
           yearInterest += interestForMonth;
           yearPrincipal += principalForMonth;
           balance -= principalForMonth;
         }
 
-        if (y === years || balance < 0) balance = 0; // Guard against floating point imprecision
+        totalInterest += yearInterest;
+        if (balance < 0) balance = 0;
 
         labels.push(y);
         dataPoints.push(Math.round(balance));
@@ -154,7 +238,7 @@
         row.innerHTML = `
           <td class="p-3 text-center font-medium text-slate-900">${y}</td>
           <td class="p-3 text-right">${formatNumber(startBalance)}</td>
-          <td class="p-3 text-right font-semibold text-indigo-700">${formatNumber(annualPayment)}</td>
+          <td class="p-3 text-right font-semibold text-indigo-700">${formatNumber(yearInterest + yearPrincipal)}</td>
           <td class="p-3 text-right text-red-600">${formatNumber(yearInterest)}</td>
           <td class="p-3 text-right text-emerald-600">${formatNumber(yearPrincipal)}</td>
           <td class="p-3 text-right font-medium">${formatNumber(balance)}</td>
@@ -162,7 +246,12 @@
         scheduleTable.appendChild(row);
       }
 
-      // Update Chart
+      // Update Summary Cards
+      document.getElementById('annualPayment').innerText = `${formatNumber(annualPayment)} บาท`;
+      document.getElementById('monthlyPaymentSub').innerText = `(ประมาณ ${formatNumber(monthlyPayment)} บาท/เดือน)`;
+      document.getElementById('totalInterest').innerText = `${formatNumber(totalInterest)} บาท`;
+      document.getElementById('totalPayment').innerText = `${formatNumber(P + totalInterest)} บาท`;
+
       renderChart(labels, dataPoints);
     }
 
@@ -203,13 +292,14 @@
       });
     }
 
-    // Attach Event Listeners for real-time recalculation
-    document.getElementById('principal').addEventListener('input', calculateLoan);
-    document.getElementById('interestRate').addEventListener('input', calculateLoan);
-    document.getElementById('years').addEventListener('input', calculateLoan);
+    // Attach Event Listeners
+    syncInputs('principalRange', 'principalInput', calculateLoan);
+    syncInputs('rateRange', 'rateInput', calculateLoan);
+    syncInputs('monthlyRange', 'monthlyInput', calculateLoan);
+    syncInputs('yearsRange', 'yearsInput', calculateLoan);
 
-    // Initial calculation on load
-    window.onload = calculateLoan;
+    // Initial Load
+    window.onload = () => calculateLoan('init');
   </script>
 </body>
 </html>
